@@ -1,9 +1,10 @@
 mod collatz;
 
 fn main() {
-    let mut a: [i32; 5] = [1,2,3,4,5];
-    a[2] = 6;
-    for item in a { 
+    let t: (i32, bool, [i32; 8]) = (2, true, [1,2,3,4,5,6,7,8]);
+    println!("{}", t.0);
+    println!("{}", t.1);
+    for item in t.2 {
         println!("{}", item);
     }
 }
