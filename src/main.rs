@@ -1,8 +1,9 @@
 mod collatz;
 
 fn main() {
-    println!("{}", collatz::length(1));
-    println!("{}", collatz::length(5));
-    println!("{}", collatz::length(2));
-    println!("{}", collatz::length(10));
+    let mut a: [i32; 5] = [1,2,3,4,5];
+    a[2] = 6;
+    for item in a { 
+        println!("{}", item);
+    }
 }
