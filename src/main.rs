@@ -1,14 +1,16 @@
-use std::cell::Cell;
-
+fn find_odd(v: &[i32]) -> Option<Vec<&i32>> {
+    let odd: Vec<&i32> = v.iter()
+        .filter(|&&x: &&i32| -> bool {x%2 == 1})
+        .collect();
+    if odd.len() == 0 {
+        None
+    } else {
+        Some(odd)
+    }
+}
 fn main() {
-    let val: Cell<i32> = Cell::new(0);
-    let increment = |x: i32| {
-        val.set(val.get() + x)
-    };
-    increment(1);
-    assert_eq!(val.get(), 1);
-    increment(5);
-    assert_eq!(val.get(), 6);
-    increment(-6);
-    assert_eq!(val.get(), 0);
+    let odd: [i32; 3] = [1,3,5];
+    assert!(find_odd(&odd) != None);
+    let even: [i32; 2] = [2,4];
+    assert!(find_odd(&even) == None);
 }
