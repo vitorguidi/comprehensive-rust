@@ -2,6 +2,8 @@ pub struct Safe {
     value: i32
 }
 
+type Dollars = i32;
+
 impl Safe {
     pub fn new(v: i32) -> Safe {
         Safe{value: v}
@@ -9,13 +11,14 @@ impl Safe {
 }
 
 pub trait ValueStore {
-    fn withdraw(self: &mut Self, amount: i32) -> Result<i32, &str>;
-    fn deposit(self: &mut Self, amount: i32);
+    type Currency;
+    fn withdraw(self: &mut Self, amount: Self::Currency) -> Result<Self::Currency, &str>;
+    fn deposit(self: &mut Self, amount: Self::Currency);
 }
 
 impl ValueStore for Safe {
-
-    fn withdraw(self: &mut Self, amount: i32) -> Result<i32, &str> {
+    type Currency = Dollars;
+    fn withdraw(self: &mut Self, amount: Dollars) -> Result<Self::Currency, &str> {
         if self.value >= amount {
             self.value -= amount;
             Ok(amount)
@@ -24,7 +27,7 @@ impl ValueStore for Safe {
         }
     }
 
-    fn deposit(self: &mut Self, amount: i32) {
+    fn deposit(self: &mut Self, amount: Self::Currency) {
         self.value += amount
     }
 }
