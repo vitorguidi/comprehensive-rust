@@ -1,5 +1,5 @@
-mod hello;
+mod fib;
 
 fn main() {
-    hello::run();
+    println!("{}", fib::calc(5))
 }
