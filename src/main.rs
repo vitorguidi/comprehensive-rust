@@ -1,16 +1,22 @@
-fn divide(x: i32, y: i32) -> Result<i32, &'static str> {
-    let result = match (x,y) {
-        (x,y) if y!=0 => Ok(x/y),
-        _ => Err("Cannot divide by zero.")
-    };
-    match result {
-        Ok(value) => println!("Division successful: {}/{} = {}", x, y, value),
-        Err(msg) => println!("Error: {}", msg)
-    };
-    result
+fn process(t: (i32, i32)) -> Result<i32, String> {
+    match t {
+        (x,y) if y != 0 => Ok(x/y),
+                      _ => Err("Division by zero not allowed.".to_string())
+    }
 }
 
 fn main() {
-    assert_eq!(Err("Cannot divide by zero."), divide(2,0));
-    assert_eq!(divide(2,2),Ok(1));
+    let inputs: [(i32,i32); 4] = [(1,1), (2,2), (3,3), (4,0)];
+    for input in inputs {
+        if let Ok(result) = process(input) {
+            println!("{}", result);
+        } else {
+            println!("Div by zero.");
+            break;
+        }
+    }
+    let all_results: Vec<Result<i32, String>> = inputs.iter()
+        .map(|&input| process(input))
+        .collect();
+    dbg!(all_results);
 }
