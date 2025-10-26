@@ -1,14 +1,14 @@
-mod traits;
-use crate::traits::Safe;
-use crate::traits::ValueStore;
+use std::cmp::PartialOrd;
+
+pub fn min<T: PartialOrd>(lval: T, rval: T) -> Result<T, ()> {
+    if lval < rval {
+       Ok(lval)
+    } else {
+       Ok(rval)
+    }
+}
 
 fn main() {
-    let mut s: Safe = Safe::new(0);
-    s.deposit(10);
-    assert_eq!(s.withdraw(5), Ok(5));
-    assert_eq!(s.withdraw(6), Err("Insufficient funds."));
-    let t: Safe = s.clone();
-    assert_eq!(t.balance(), Ok(5));
-    let u: Safe = Safe::default();
-    assert_eq!(u.balance(), Ok(0));
+    assert_eq!(min(2,3), Ok(2));
+    assert_eq!(min("a","b"), Ok("a"));
 }
