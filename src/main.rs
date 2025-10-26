@@ -6,17 +6,11 @@ fn process(t: (i32, i32)) -> Result<i32, String> {
 }
 
 fn main() {
-    let inputs: [(i32,i32); 4] = [(1,1), (2,2), (3,3), (4,0)];
-    for input in inputs {
-        if let Ok(result) = process(input) {
-            println!("{}", result);
-        } else {
-            println!("Div by zero.");
-            break;
-        }
-    }
-    let all_results: Vec<Result<i32, String>> = inputs.iter()
+    let inputs: [(i32,i32); 5] = [(0,0), (1,1), (2,2), (3,3), (4,4)];
+    let mut all_results: Vec<Result<i32, String>> = inputs.iter()
         .map(|&input| process(input))
         .collect();
-    dbg!(all_results);
+    while let Some(Ok(result)) = all_results.pop() {
+        println!("{}", result);
+    }
 }
