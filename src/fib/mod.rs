@@ -1,7 +1,11 @@
 pub fn calc(x: i32) -> i32 {
-    if x == 0 || x== 1 {
-        return 1
+    match x {
+        0 => 1,
+        1 => 1,
+        y => if y < 0 { 
+                panic!("fib cannot take negative values.")
+            } else {
+                calc(y-1) + calc(y-2)
+            }
     }
-    println!("{}", x);
-    return calc(x-1) + calc(x-2)
 }
