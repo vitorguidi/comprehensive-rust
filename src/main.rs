@@ -1,23 +1,14 @@
-mod dynamic;
-use crate::dynamic::Pet;
-
-fn dyn_call(p: &dyn Pet) {
-    println!("{}", p.talk());
-}
-
-fn static_call(p: &impl Pet) {
-    println!("{}", p.talk());
-}
+use std::cell::Cell;
 
 fn main() {
-    let cat = dynamic::Cat::new(10);
-    let dog = dynamic::Dog::new(1);
-    dyn_call(&cat);
-    static_call(&cat);
-    assert_eq!(cat.talk(), "meowwwww".to_string());
-    assert_eq!(cat.lives(), 10);
-    dyn_call(&dog);
-    static_call(&dog);
-    assert_eq!(dog.talk(), "woof".to_string());
-    assert_eq!(dog.lives(), 1);
+    let val: Cell<i32> = Cell::new(0);
+    let increment = |x: i32| {
+        val.set(val.get() + x)
+    };
+    increment(1);
+    assert_eq!(val.get(), 1);
+    increment(5);
+    assert_eq!(val.get(), 6);
+    increment(-6);
+    assert_eq!(val.get(), 0);
 }
