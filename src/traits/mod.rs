@@ -6,8 +6,16 @@ impl Safe {
     pub fn new(v: i32) -> Safe {
         Safe{value: v}
     }
+}
 
-    pub fn withdraw(self: &mut Safe, amount: i32) -> Result<i32, &str> {
+pub trait ValueStore {
+    fn withdraw(self: &mut Self, amount: i32) -> Result<i32, &str>;
+    fn deposit(self: &mut Self, amount: i32);
+}
+
+impl ValueStore for Safe {
+
+    fn withdraw(self: &mut Self, amount: i32) -> Result<i32, &str> {
         if self.value >= amount {
             self.value -= amount;
             Ok(amount)
@@ -16,7 +24,7 @@ impl Safe {
         }
     }
 
-    pub fn deposit(self: &mut Safe, amount: i32) {
+    fn deposit(self: &mut Self, amount: i32) {
         self.value += amount
     }
 }
