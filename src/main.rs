@@ -1,14 +1,23 @@
-use std::cmp::PartialOrd;
+mod dynamic;
+use crate::dynamic::Pet;
 
-pub fn min<T: PartialOrd>(lval: T, rval: T) -> Result<T, ()> {
-    if lval < rval {
-       Ok(lval)
-    } else {
-       Ok(rval)
-    }
+fn dyn_call(p: &dyn Pet) {
+    println!("{}", p.talk());
+}
+
+fn static_call(p: &impl Pet) {
+    println!("{}", p.talk());
 }
 
 fn main() {
-    assert_eq!(min(2,3), Ok(2));
-    assert_eq!(min("a","b"), Ok("a"));
+    let cat = dynamic::Cat::new(10);
+    let dog = dynamic::Dog::new(1);
+    dyn_call(&cat);
+    static_call(&cat);
+    assert_eq!(cat.talk(), "meowwwww".to_string());
+    assert_eq!(cat.lives(), 10);
+    dyn_call(&dog);
+    static_call(&dog);
+    assert_eq!(dog.talk(), "woof".to_string());
+    assert_eq!(dog.lives(), 1);
 }
