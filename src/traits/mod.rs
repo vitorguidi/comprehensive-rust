@@ -1,3 +1,4 @@
+#[derive(Debug, Clone, Default)]
 pub struct Safe {
     value: i32
 }
@@ -14,6 +15,7 @@ pub trait ValueStore {
     type Currency;
     fn withdraw(self: &mut Self, amount: Self::Currency) -> Result<Self::Currency, &str>;
     fn deposit(self: &mut Self, amount: Self::Currency);
+    fn balance(self: &Self) -> Result<Self::Currency, ()>;
 }
 
 impl ValueStore for Safe {
@@ -29,5 +31,9 @@ impl ValueStore for Safe {
 
     fn deposit(self: &mut Self, amount: Self::Currency) {
         self.value += amount
+    }
+
+    fn balance(self: &Self) -> Result<Self::Currency, ()> {
+        Ok(self.value)
     }
 }

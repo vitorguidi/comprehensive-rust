@@ -7,4 +7,8 @@ fn main() {
     s.deposit(10);
     assert_eq!(s.withdraw(5), Ok(5));
     assert_eq!(s.withdraw(6), Err("Insufficient funds."));
+    let t: Safe = s.clone();
+    assert_eq!(t.balance(), Ok(5));
+    let u: Safe = Safe::default();
+    assert_eq!(u.balance(), Ok(0));
 }
