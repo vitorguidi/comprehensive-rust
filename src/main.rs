@@ -13,4 +13,8 @@ fn main() {
     assert!(find_odd(&odd) != None);
     let even: [i32; 2] = [2,4];
     assert!(find_odd(&even) == None);
+    let odds = find_odd(&odd).unwrap();
+    assert_eq!(*odds[0], 1);
+    assert_eq!(*odds[1], 3);
+    assert_eq!(*odds[2], 5);
 }
