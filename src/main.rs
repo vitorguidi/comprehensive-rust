@@ -1,28 +1,24 @@
-use std::sync::{Arc, Mutex};
-use std::{result, thread};
-use std::sync::mpsc::channel;
-use std::time::Duration;
+use std::sync::mpsc;
+use std::thread;
 
 fn main() {
-    let mut results = Vec::new();
-    let loops = 10;
-    let const_val = 5;
-
-    for i in 1..loops+1 {
-        results.push(thread::spawn(move || -> i32 {
-            thread::sleep(Duration::from_millis(5));
-            const_val
-        }));
-    }
-
-    let mut cnt = 0;
-
-    for result in results {
-        if let Ok(value) = result.join() {
-            cnt += value;
+    let (tx, rx) = mpsc::channel();
+    let handler_send = thread::spawn(move || {
+        let val = 2;
+        if let Ok(()) =tx.send(val) {
+            println!("send thread succeeded, sent {}", val) 
+        } else {
+            println!("send thread failed") 
         }
-    }
+    });
+    let handler_rcv = thread::spawn(move || {
+        if let Ok(val) = rx.recv() {
+            println!("rcv thread succeeded: {}", val) 
+        } else {
+            println!("rcv thread failed") 
+        }
+    });
 
-    assert_eq!(const_val * loops, cnt);
-    
+    handler_send.join();
+    handler_rcv.join();
 }
