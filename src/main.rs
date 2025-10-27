@@ -1,9 +1,12 @@
 mod smartpointers;
-use smartpointers::List;
-
+use smartpointers::Pet;
+use smartpointers::Cat;
+use smartpointers::Dog;
 fn main() {
-    let mut l = smartpointers::List::new();
-    l = l.append(2);
-    l = l.append(3);
-    dbg!(l);
+    let mut pets: Vec<Box<dyn Pet>> = Vec::new();
+    pets.push(Box::new(Dog::new("fido".to_string(), 10)));
+    pets.push(Box::new(Cat::new(10)));
+    for pet in pets {
+        println!("{}", pet.talk());
+    }
 }
